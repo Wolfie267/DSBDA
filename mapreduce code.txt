@@ -1,0 +1,278 @@
+[cloudera@quickstart Desktop]$ cd
+[cloudera@quickstart ~]$ hadoop fs -ls
+Found 2 items
+-rw-r--r--   1 cloudera cloudera         11 2022-01-12 20:32 dummy_file2.txt
+drwxr-xr-x   - cloudera cloudera          0 2022-01-12 20:41 first_folder
+[cloudera@quickstart ~]$ hadoop fs -mkdir mapreduce1
+[cloudera@quickstart ~]$ hadoop fs -ls
+Found 3 items
+-rw-r--r--   1 cloudera cloudera         11 2022-01-12 20:32 dummy_file2.txt
+drwxr-xr-x   - cloudera cloudera          0 2022-01-12 20:41 first_folder
+drwxr-xr-x   - cloudera cloudera          0 2022-01-19 19:47 mapreduce1
+[cloudera@quickstart ~]$ hadoop fs -put /home/cloudera/Desktop/pict.txt mapreduce1
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1
+Found 1 items
+-rw-r--r--   1 cloudera cloudera        670 2022-01-19 19:48 mapreduce1/pict.txt
+[cloudera@quickstart ~]$ hadoop fs -put /home/cloudera/Desktop/pict2.txt mapreduce1
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1
+Found 2 items
+-rw-r--r--   1 cloudera cloudera        670 2022-01-19 19:48 mapreduce1/pict.txt
+-rw-r--r--   1 cloudera cloudera        239 2022-01-19 19:50 mapreduce1/pict2.txt
+[cloudera@quickstart ~]$ hadoop jar /home/cloudera/Desktop/wc1.jar mapreduce1 wc_op
+Exception in thread "main" java.lang.ClassNotFoundException: mapreduce1
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:270)
+	at org.apache.hadoop.util.RunJar.run(RunJar.java:214)
+	at org.apache.hadoop.util.RunJar.main(RunJar.java:136)
+[cloudera@quickstart ~]$ hadoop jar /home/cloudera/Desktop/wc1.jar WordCount  mapreduce1 mapreduce/output/wc_op
+22/01/19 20:02:39 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+22/01/19 20:02:40 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+22/01/19 20:02:40 INFO input.FileInputFormat: Total input paths to process : 2
+22/01/19 20:02:40 INFO mapreduce.JobSubmitter: number of splits:2
+22/01/19 20:02:41 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1642648391466_0001
+22/01/19 20:02:41 INFO impl.YarnClientImpl: Submitted application application_1642648391466_0001
+22/01/19 20:02:41 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1642648391466_0001/
+22/01/19 20:02:41 INFO mapreduce.Job: Running job: job_1642648391466_0001
+22/01/19 20:02:51 INFO mapreduce.Job: Job job_1642648391466_0001 running in uber mode : false
+22/01/19 20:02:51 INFO mapreduce.Job:  map 0% reduce 0%
+22/01/19 20:03:11 INFO mapreduce.Job:  map 50% reduce 0%
+22/01/19 20:03:12 INFO mapreduce.Job:  map 100% reduce 0%
+22/01/19 20:03:20 INFO mapreduce.Job:  map 100% reduce 100%
+22/01/19 20:03:20 INFO mapreduce.Job: Job job_1642648391466_0001 completed successfully
+22/01/19 20:03:20 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=1217
+		FILE: Number of bytes written=333465
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1170
+		HDFS: Number of bytes written=795
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=35149
+		Total time spent by all reduces in occupied slots (ms)=5332
+		Total time spent by all map tasks (ms)=35149
+		Total time spent by all reduce tasks (ms)=5332
+		Total vcore-seconds taken by all map tasks=35149
+		Total vcore-seconds taken by all reduce tasks=5332
+		Total megabyte-seconds taken by all map tasks=35992576
+		Total megabyte-seconds taken by all reduce tasks=5459968
+	Map-Reduce Framework
+		Map input records=4
+		Map output records=119
+		Map output bytes=1382
+		Map output materialized bytes=1223
+		Input split bytes=261
+		Combine input records=119
+		Combine output records=88
+		Reduce input groups=80
+		Reduce shuffle bytes=1223
+		Reduce input records=88
+		Reduce output records=80
+		Spilled Records=176
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=759
+		CPU time spent (ms)=1600
+		Physical memory (bytes) snapshot=538640384
+		Virtual memory (bytes) snapshot=4507459584
+		Total committed heap usage (bytes)=391979008
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=909
+	File Output Format Counters 
+		Bytes Written=795
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1
+Found 2 items
+-rw-r--r--   1 cloudera cloudera        670 2022-01-19 19:48 mapreduce1/pict.txt
+-rw-r--r--   1 cloudera cloudera        239 2022-01-19 19:50 mapreduce1/pict2.txt
+[cloudera@quickstart ~]$ hadoop jar /home/cloudera/Desktop/wc1.jar WordCount  mapreduce1 mapreduce1/output/wc_op
+22/01/19 20:04:06 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+22/01/19 20:04:06 WARN mapreduce.JobSubmitter: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+22/01/19 20:04:07 INFO input.FileInputFormat: Total input paths to process : 2
+22/01/19 20:04:07 INFO mapreduce.JobSubmitter: number of splits:2
+22/01/19 20:04:07 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1642648391466_0002
+22/01/19 20:04:07 INFO impl.YarnClientImpl: Submitted application application_1642648391466_0002
+22/01/19 20:04:07 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1642648391466_0002/
+22/01/19 20:04:07 INFO mapreduce.Job: Running job: job_1642648391466_0002
+22/01/19 20:04:15 INFO mapreduce.Job: Job job_1642648391466_0002 running in uber mode : false
+22/01/19 20:04:15 INFO mapreduce.Job:  map 0% reduce 0%
+22/01/19 20:04:24 INFO mapreduce.Job:  map 50% reduce 0%
+22/01/19 20:04:25 INFO mapreduce.Job:  map 100% reduce 0%
+22/01/19 20:04:31 INFO mapreduce.Job:  map 100% reduce 100%
+22/01/19 20:04:31 INFO mapreduce.Job: Job job_1642648391466_0002 completed successfully
+22/01/19 20:04:31 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=1217
+		FILE: Number of bytes written=333468
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=1170
+		HDFS: Number of bytes written=795
+		HDFS: Number of read operations=9
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Data-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=14568
+		Total time spent by all reduces in occupied slots (ms)=3868
+		Total time spent by all map tasks (ms)=14568
+		Total time spent by all reduce tasks (ms)=3868
+		Total vcore-seconds taken by all map tasks=14568
+		Total vcore-seconds taken by all reduce tasks=3868
+		Total megabyte-seconds taken by all map tasks=14917632
+		Total megabyte-seconds taken by all reduce tasks=3960832
+	Map-Reduce Framework
+		Map input records=4
+		Map output records=119
+		Map output bytes=1382
+		Map output materialized bytes=1223
+		Input split bytes=261
+		Combine input records=119
+		Combine output records=88
+		Reduce input groups=80
+		Reduce shuffle bytes=1223
+		Reduce input records=88
+		Reduce output records=80
+		Spilled Records=176
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=173
+		CPU time spent (ms)=1170
+		Physical memory (bytes) snapshot=578826240
+		Virtual memory (bytes) snapshot=4507758592
+		Total committed heap usage (bytes)=391979008
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=909
+	File Output Format Counters 
+		Bytes Written=795
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1
+Found 3 items
+drwxr-xr-x   - cloudera cloudera          0 2022-01-19 20:04 mapreduce1/output
+-rw-r--r--   1 cloudera cloudera        670 2022-01-19 19:48 mapreduce1/pict.txt
+-rw-r--r--   1 cloudera cloudera        239 2022-01-19 19:50 mapreduce1/pict2.txt
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1/output
+Found 1 items
+drwxr-xr-x   - cloudera cloudera          0 2022-01-19 20:04 mapreduce1/output/wc_op
+[cloudera@quickstart ~]$ hadoop fs -cat mapreduce1/output/wc_op
+cat: `mapreduce1/output/wc_op': Is a directory
+[cloudera@quickstart ~]$ hadoop fs -ls mapreduce1/output/wc_op
+Found 2 items
+-rw-r--r--   1 cloudera cloudera          0 2022-01-19 20:04 mapreduce1/output/wc_op/_SUCCESS
+-rw-r--r--   1 cloudera cloudera        795 2022-01-19 20:04 mapreduce1/output/wc_op/part-r-00000
+[cloudera@quickstart ~]$ hadoop fs cat mapreduce1/output/wc_op/part-r-00000
+cat: Unknown command
+Did you mean -cat?  This command begins with a dash.
+[cloudera@quickstart ~]$ hadoop fs -cat mapreduce1/output/wc_op/part-r-00000
+&	3
+(CE),	1
+(E&TC),	1
+(ICT)	1
+(IT);	1
+(India),	1
+(PG)	1
+(PICT),	1
+(SPPU)	1
+(UG)	1
+(Wireless	1
+1983.	1
+Center	1
+Communication	3
+Computer	4
+Data	1
+East”,	1
+Electronics	3
+Engineering	3
+Engineering,	1
+Engineering.	1
+Information	3
+Institute	2
+It	1
+Oxford	1
+PICT	1
+Phule	1
+Pune	2
+Research	1
+Savitribai	1
+Science,	1
+Technology	3
+Technology),	1
+Technology.	1
+Telecommunication	2
+University	1
+academic	1
+achieve	1
+also	1
+an	2
+and	6
+are	1
+as	1
+believes	1
+by	1
+constantly	1
+education	2
+elite	1
+endeavouring	1
+establishment	1
+excellence	1
+field	1
+higher	1
+in	8
+inspiring	1
+is	2
+its	1
+known	1
+levels	1
+located	1
+of	4
+offering	1
+playing	1
+post-graduate	1
+programmes	2
+quality	1
+recognized	1
+rightly	1
+role	1
+sector	1
+since	1
+technical	1
+the	3
+to	1
+under-graduate	1
+une	1
+value-based	1
+we	1
+which	1
+“The	1
+[cloudera@quickstart ~]$ 
+
